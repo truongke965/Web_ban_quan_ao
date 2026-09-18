@@ -11,15 +11,15 @@
 <body>
 
     <header class="header">
-        <div class="logo">StyleShop</div>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">StyleShop</a></div>
         <nav class="nav">
-            <a href="#">Trang chủ</a>
-            <a href="#">Sản phẩm</a>
+            <a href="index.html">Trang chủ</a>
+            <a href="#products">Sản phẩm</a>
             <a href="#">Bộ sưu tập</a>
             <a href="#">Liên hệ</a>
         </nav>
         <div class="user-actions">
-            <a href="#">Giỏ hàng (0)</a>
+            <a href="checkout.html">Giỏ hàng (<span id="cart-count">0</span>)</a>
         </div>
     </header>
 
@@ -27,11 +27,11 @@
         <div class="hero-content">
             <h1>Bộ Sưu Tập Mùa Hè 2026</h1>
             <p>Phong cách hiện đại, năng động và thanh lịch.</p>
-            <a href="#" class="btn">Khám Phá Ngay</a>
+            <a href="#products" class="btn">Khám Phá Ngay</a>
         </div>
     </section>
 
-    <section class="products-section">
+    <section class="products-section" id="products">
         <h2>Sản Phẩm Nổi Bật</h2>
         <div class="product-grid">
             <div class="product-card">
@@ -40,7 +40,7 @@
                 </div>
                 <h3>Áo Sơ Mi Trắng Premium</h3>
                 <p class="price">450.000 VNĐ</p>
-                <button class="btn-cart">Thêm vào giỏ</button>
+                <button class="btn-cart" data-id="1" data-name="Áo Sơ Mi Trắng Premium" data-price="450000" data-img="img/ao_somi.jpg">Thêm vào giỏ</button>
             </div>
             <div class="product-card">
                 <div class="product-image">
@@ -48,7 +48,7 @@
                 </div>
                 <h3>Áo Thun Oversize Nam</h3>
                 <p class="price">290.000 VNĐ</p>
-                <button class="btn-cart">Thêm vào giỏ</button>
+                <button class="btn-cart" data-id="2" data-name="Áo Thun Oversize Nam" data-price="290000" data-img="img/ao_thun.jpg">Thêm vào giỏ</button>
             </div>
             <div class="product-card">
                 <div class="product-image">
@@ -56,7 +56,7 @@
                 </div>
                 <h3>Quần Jeans Slimfit</h3>
                 <p class="price">580.000 VNĐ</p>
-                <button class="btn-cart">Thêm vào giỏ</button>
+                <button class="btn-cart" data-id="3" data-name="Quần Jeans Slimfit" data-price="580000" data-img="img/quan_jean.jpg">Thêm vào giỏ</button>
             </div>
             <div class="product-card">
                 <div class="product-image">
@@ -64,7 +64,7 @@
                 </div>
                 <h3>Áo Khoác Denim Classic</h3>
                 <p class="price">720.000 VNĐ</p>
-                <button class="btn-cart">Thêm vào giỏ</button>
+                <button class="btn-cart" data-id="4" data-name="Áo Khoác Denim Classic" data-price="720000" data-img="img/ao_khoac.jpg">Thêm vào giỏ</button>
             </div>
         </div>
     </section>
@@ -73,6 +73,37 @@
         <p>&copy; 2026 StyleShop. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            updateCartBadge();
+
+            document.querySelectorAll('.btn-cart').forEach(button => {
+                button.addEventListener('click', () => {
+                    const id = button.getAttribute('data-id');
+                    const name = button.getAttribute('data-name');
+                    const price = parseInt(button.getAttribute('data-price'));
+                    const img = button.getAttribute('data-img');
+
+                    const existingIndex = cart.findIndex(item => item.id === id);
+                    if (existingIndex > -1) {
+                        cart[existingIndex].quantity += 1;
+                    } else {
+                        cart.push({ id, name, price, img, quantity: 1 });
+                    }
+
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    updateCartBadge();
+                    alert(`Đã thêm "${name}" vào giỏ hàng!`);
+                });
+            });
+
+            function updateCartBadge() {
+                const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').innerText = totalCount;
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -141,3 +141,241 @@ body {
     color: #fff;
     font-size: 14px;
 }
+
+.checkout-section {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.checkout-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #111;
+}
+
+.checkout-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.checkout-box {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.checkout-box h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    color: #111;
+}
+
+/* Form Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: #111;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+/* Payment Methods */
+.payment-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 15px;
+    border: 1px solid #eee;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.payment-option:hover {
+    background-color: #f0f0f0;
+}
+
+.payment-option input[type="radio"] {
+    accent-color: #111;
+    width: 16px;
+    height: 16px;
+}
+
+.payment-option span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Cart Items List */
+.cart-items-list {
+    margin-bottom: 20px;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    background-color: #ddd;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-info h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #222;
+}
+
+.cart-item-info .item-price {
+    font-size: 13px;
+    color: #e63946;
+    font-weight: bold;
+}
+
+/* Quantity Controls */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.btn-qty {
+    background: #f0f0f0;
+    border: none;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.btn-qty:hover {
+    background: #e0e0e0;
+}
+
+.qty-number {
+    width: 32px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Checkout Calculation Area */
+.checkout-calculation {
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+}
+
+.calc-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.total-row {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px dashed #ddd;
+    font-size: 18px;
+    font-weight: bold;
+    color: #111;
+}
+
+.total-row #grand-total {
+    color: #e63946;
+}
+
+/* Submit Button */
+.btn-checkout {
+    width: 100%;
+    padding: 14px;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.2s;
+}
+
+.btn-checkout:hover {
+    background-color: #333;
+}
+
+/* Responsive cho màn hình điện thoại */
+@media (max-width: 768px) {
+    .checkout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group-row {
+        grid-template-columns: 1fr;
+    }
+
+    .checkout-section {
+        padding: 0 15px;
+        margin: 20px auto;
+    }
+}

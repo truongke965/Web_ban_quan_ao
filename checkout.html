@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt Hàng & Thanh Toán - StyleShop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">StyleShop</a></div>
+        <nav class="nav">
+            <a href="index.html">Trang chủ</a>
+            <a href="index.html#products">Sản phẩm</a>
+            <a href="#">Bộ sưu tập</a>
+            <a href="#">Liên hệ</a>
+        </nav>
+        <div class="user-actions">
+            <a href="checkout.html">Giỏ hàng (<span id="cart-count">0</span>)</a>
+        </div>
+    </header>
+
+    <main class="checkout-section">
+        <h1 class="checkout-title">Thanh Toán Đơn Hàng</h1>
+
+        <div class="checkout-grid">
+            <div class="checkout-left">
+                <div class="checkout-box">
+                    <h3>Thông Tin Giao Hàng</h3>
+                    <form id="order-form">
+                        <div class="form-group">
+                            <label for="fullname">Họ và tên *</label>
+                            <input type="text" id="fullname" class="form-control" placeholder="Nguyễn Văn A" required>
+                        </div>
+                        <div class="form-group-row">
+                            <div class="form-group">
+                                <label for="phone">Số điện thoại *</label>
+                                <input type="tel" id="phone" class="form-control" placeholder="0901234567" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="example@gmail.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Địa chỉ nhận hàng *</label>
+                            <input type="text" id="address" class="form-control" placeholder="Số nhà, tên đường, phường/xã..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="note">Ghi chú đơn hàng</label>
+                            <textarea id="note" class="form-control" rows="3" placeholder="Ghi chú giao hàng..."></textarea>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="checkout-box">
+                    <h3>Phương Thức Thanh Toán</h3>
+                    <div class="payment-methods">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="cod" checked>
+                            <span>Thanh toán khi nhận hàng (COD)</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="banking">
+                            <span>Chuyển khoản ngân hàng (QR Code)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="checkout-right">
+                <div class="checkout-box summary-box">
+                    <h3>Đơn Hàng Của Bạn</h3>
+
+                    <div class="cart-items-list" id="cart-items-container">
+                        <!-- Danh sách sản phẩm được Render tự động bằng JavaScript -->
+                    </div>
+
+                    <div class="checkout-calculation">
+                        <div class="calc-row">
+                            <span>Tạm tính:</span>
+                            <span id="subtotal">0 VNĐ</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>Phí vận chuyển:</span>
+                            <span id="shipping-fee">30.000 VNĐ</span>
+                        </div>
+                        <div class="calc-row total-row">
+                            <span>Tổng thanh toán:</span>
+                            <span id="grand-total">0 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" form="order-form" class="btn-checkout">Xác Nhận Đặt Hàng</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 StyleShop. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('subtotal');
+            const grandTotalEl = document.getElementById('grand-total');
+            const shippingFee = 30000;
+
+            function formatCurrency(amount) {
+                return amount.toLocaleString('vi-VN') + ' VNĐ';
+            }
+
+            function renderCart() {
+                container.innerHTML = '';
+                const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').innerText = totalCount;
+
+                if (cart.length === 0) {
+                    container.innerHTML = '<p style="text-align:center; padding: 20px 0;">Giỏ hàng của bạn đang trống.</p>';
+                    subtotalEl.innerText = '0 VNĐ';
+                    grandTotalEl.innerText = '0 VNĐ';
+                    return;
+                }
+
+                let subtotal = 0;
+                cart.forEach((item, index) => {
+                    subtotal += item.price * item.quantity;
+
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'cart-item';
+                    itemDiv.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p class="item-price">${formatCurrency(item.price)}</p>
+                        </div>
+                        <div class="quantity-control">
+                            <button type="button" class="btn-qty btn-minus" data-index="${index}">-</button>
+                            <span class="qty-number">${item.quantity}</span>
+                            <button type="button" class="btn-qty btn-plus" data-index="${index}">+</button>
+                        </div>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+
+                subtotalEl.innerText = formatCurrency(subtotal);
+                grandTotalEl.innerText = formatCurrency(subtotal + shippingFee);
+
+                addQtyEventListeners();
+            }
+
+            function addQtyEventListeners() {
+                document.querySelectorAll('.btn-minus').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = e.target.getAttribute('data-index');
+                        if (cart[index].quantity > 1) {
+                            cart[index].quantity -= 1;
+                        } else {
+                            cart.splice(index, 1);
+                        }
+                        saveAndRender();
+                    });
+                });
+
+                document.querySelectorAll('.btn-plus').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const index = e.target.getAttribute('data-index');
+                        cart[index].quantity += 1;
+                        saveAndRender();
+                    });
+                });
+            }
+
+            function saveAndRender() {
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCart();
+            }
+
+            renderCart();
+
+            document.getElementById('order-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (cart.length === 0) {
+                    alert('Giỏ hàng trống! Hãy chọn sản phẩm trước.');
+                    return;
+                }
+                alert('Đặt hàng thành công!');
+                localStorage.removeItem('cart');
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+</body>
+
+</html>
